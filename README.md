@@ -6,8 +6,8 @@
 
 # v0.02 版本更新
 ## [新增設定視窗]
- ### -設定視窗內容說明：
- ### -cameraZoom：縮放攝影機
- ### -AI：開關AI
- ### -Close Controls：關閉設定視窗
- ### -Open Controls：開啟設定視窗
+### -設定視窗內容說明：
+### -cameraZoom：縮放攝影機
+### -AI：開關AI
+### -Close Controls：關閉設定視窗
+### -Open Controls：開啟設定視窗
