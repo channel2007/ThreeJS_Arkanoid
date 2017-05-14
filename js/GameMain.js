@@ -1,5 +1,5 @@
-/*****************************************************************************
- * ¹CÀ¸¶i¤JÂI.
+ï»¿/*****************************************************************************
+ * éŠæˆ²é€²å…¥é».
  * 
  * created  by channel
  * 
@@ -8,90 +8,117 @@
  * note:
  *
 ****************************************************************************/
-// «Øºc¤l.
+// å»ºæ§‹å­.
 function GameMain() {
-    // «Ø¥ß³õ´º.
+    // å»ºç«‹å ´æ™¯.
     var scene = this.scene = new THREE.Scene();
-    // «Ø¥ßÄá¼v¾÷.
-    var camera = this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    // å»ºç«‹æ”å½±æ©Ÿ.
+    var camera = this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 5000);
 
-    // «Ø¥ß¦¨¹³ª«¥ó.
+    // å»ºç«‹æˆåƒç‰©ä»¶.
     var renderer = this.renderer = new THREE.WebGLRenderer({ alpha: true});
 
-    // «Ø¥ßFPS.
+    // å»ºç«‹FPS.
     var stats = this.stats = new Stats();
     var container = this.container = document.createElement('div');
 
-    // ²¾°ÊªO¤l®g½u.
+    // ç§»å‹•æ¿å­å°„ç·š.
     var raycaster = new THREE.Raycaster();
     var mouse = new THREE.Vector3();
     var attractor = this.attractor = new THREE.Vector3();
 
-    // ¹CÀ¸®É¯ß.
+    // éŠæˆ²æ™‚è„ˆ.
     var gameClock = this.gameClock = new THREE.Clock();
     var gameClockOldT = this.gameClockOld = 0;
 
-    // ÃèÀYZ¶bÁY©ñ.
+    // é¡é ­Zè»¸ç¸®æ”¾.
     var cameraZoom = this.cameraZoom = -690;
+    // AIé–‹é—œ.
+    var openAI = this.openAI = false;
 
-    // 10:¹CÀ¸¼Ò¦¡.
+    // 10:éŠæˆ²æ¨¡å¼.
     var gameMainMode = this.gameMainMode = 10;
 
-    // ªì©lTHREE.
+
+    // åˆå§‹THREE.
     initTHREE(camera, renderer);
-    // ªì©lFPS.
+    // åˆå§‹FPS.
     initFPS(stats, container);
 
-    // gameMainMode(10:¹CÀ¸¼Ò¦¡).
+    // gameMainMode(10:éŠæˆ²æ¨¡å¼).
     if (gameMainMode == 10) {
-        // «Ø¥ßGameplayª«¥ó.
+        // å»ºç«‹Gameplayç‰©ä»¶.
         var gamePlay = this.gamePlay = new GamePlay(scene);
-        // «Ø¥ßÃö¥d.
+        // å»ºç«‹AIç‰©ä»¶.
+        var ai = this.ai = new AI(gamePlay);
+
+        // å»ºç«‹é—œå¡.
         gamePlay.resetGame(1);
+
+        //----------------------------------------------------------------------------
+        // è¨­å®šè¦–çª—..
+        //----------------------------------------------------------------------------
+        var setMenu = {
+            cameraZoom: -690,
+            AI: false,
+        };
+        var matChanger = function () {
+            cameraZoom = setMenu['cameraZoom'];
+            // è¨­å®šèšå…‰ç‡ˆç‰©ä»¶.
+            spotLight1.position.set(0, 0, cameraZoom);
+            // è¨­ç½®ç›¸æ©Ÿçš„ä½ç½®
+            camera.position.set(0, 0, cameraZoom);
+            // AIé–‹é—œ.
+            openAI = setMenu['AI'];
+        };
+        var gui = new dat.GUI();
+        gui.add(setMenu, "cameraZoom", -4000, -300, 1).onChange(matChanger);
+        gui.add(setMenu, "AI", true).onChange(matChanger);
+        matChanger();
     }
         
-    // ³]©w¦¨¹³°j°é.
+    // è¨­å®šæˆåƒè¿´åœˆ.
     render();
 
-    // ÂIÀ»·Æ¹«.
+    // é»æ“Šæ»‘é¼ .
     window.addEventListener('mouseup', onMouseUp, false);
-    // ·Æ¹«²¾°Ê. 
+    // æ»‘é¼ ç§»å‹•. 
     window.addEventListener('mousemove', onMouseMove, false);
-    // Ä²¸I²¾°Ê.
+    // è§¸ç¢°ç§»å‹•.
     window.addEventListener('touchmove', onTouchMove, false);
-    // Ä²¸I©ñ¶}.
+    // è§¸ç¢°æ”¾é–‹.
     window.addEventListener('touchend', onTouchEnd, false);
     
 
     //----------------------------------------------------------------------------
-    // ªì©lTHREE.
+    // åˆå§‹THREE.
     //----------------------------------------------------------------------------
     function initTHREE(camera, renderer) {
-        // «Ø¥ß¦¨¹³ª«¥ó.
+        // å»ºç«‹æˆåƒç‰©ä»¶.
         //renderer.shadowMap.enabled = true;
         //renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
-        // ³]©w¥ş°ì¥ú·½ª«¥ó.
+        // è¨­å®šå…¨åŸŸå…‰æºç‰©ä»¶.
         //var ambient = new THREE.AmbientLight(0xe0e0e0);
         //scene.add(ambient);
 
-        // ³]©w¥­¦æ¥ú·½ª«¥ó.
+        // è¨­å®šå¹³è¡Œå…‰æºç‰©ä»¶.
         //var directionalLight = new THREE.DirectionalLight(0xffffff, 1.0, 100);
         //directionalLight.position.set(0, -100, 150);
         //directionalLight.castShadow = true;
         //scene.add(directionalLight);
         
-        // ³]©w»E¥ú¿Oª«¥ó.
+        // è¨­å®šèšå…‰ç‡ˆç‰©ä»¶.
         var spotLight = this.spotLight1 = new THREE.SpotLight(0xffffff, 1.0);
         spotLight.position.set(0, 0, cameraZoom);
         spotLight.castShadow = true;
         scene.add(spotLight);
 
-        // ³]¸m¬Û¾÷ªº¦ì¸m
+        // è¨­ç½®ç›¸æ©Ÿçš„ä½ç½®
         camera.position.set(0, 0, cameraZoom);
-        // ³]¸m¬Û¾÷»EµJªº¦ì¸m.        
+        // è¨­ç½®ç›¸æ©Ÿèšç„¦çš„ä½ç½®.        
         camera.lookAt(scene.position);
 
         camera.rotation.x = Math.PI;
@@ -101,7 +128,7 @@ function GameMain() {
     }
 
     //----------------------------------------------------------------------------
-    // ªì©lFPS.
+    // åˆå§‹FPS.
     //----------------------------------------------------------------------------
     function initFPS(stats, container) {
         document.body.appendChild(container);
@@ -115,25 +142,25 @@ function GameMain() {
     }
 
     //--------------------------------------------------------------------
-    // ÂIÀ»·Æ¹«. 
+    // é»æ“Šæ»‘é¼ . 
     //--------------------------------------------------------------------
     function onMouseUp(e) {
         //console.log("onMouseUp!!");
-        // gameMainMode(10:¹CÀ¸¼Ò¦¡).
+        // gameMainMode(10:éŠæˆ²æ¨¡å¼).
         if (gameMainMode == 10) {
-            // gamePlayMode(10:¶}²y¼Ò¦¡).            
+            // gamePlayMode(10:é–‹çƒæ¨¡å¼).            
             if (gamePlay.gamePlayMode == 10) {
-                // 11:¹CÀ¸¼Ò¦¡.
+                // 11:éŠæˆ²æ¨¡å¼.
                 gamePlay.gamePlayMode = 11;
             }
         }        
     }
 
     //--------------------------------------------------------------------
-    // Ä²¸I²¾°Ê. 
+    // è§¸ç¢°ç§»å‹•. 
     //--------------------------------------------------------------------
     function onMouseMove(e) {        
-        // gameMainMode(10:¹CÀ¸¼Ò¦¡).
+        // gameMainMode(10:éŠæˆ²æ¨¡å¼).
         if (gameMainMode == 10) {
             e.preventDefault();
             mouse.set((e.clientX / window.innerWidth) * 2 - 1, -(e.clientY / window.innerHeight) * 2 + 1, 0);
@@ -147,29 +174,29 @@ function GameMain() {
     }
 
     //--------------------------------------------------------------------
-    // Ä²¸I©ñ¶}. 
+    // è§¸ç¢°æ”¾é–‹. 
     //--------------------------------------------------------------------
     function onTouchEnd(e) {
-        // gameMainMode(10:¹CÀ¸¼Ò¦¡).
+        // gameMainMode(10:éŠæˆ²æ¨¡å¼).
         if (gameMainMode == 10) {
-            // gamePlayMode(10:¶}²y¼Ò¦¡).            
+            // gamePlayMode(10:é–‹çƒæ¨¡å¼).            
             if (gamePlay.gamePlayMode == 10) {
-                // 11:¹CÀ¸¼Ò¦¡.
+                // 11:éŠæˆ²æ¨¡å¼.
                 gamePlay.gamePlayMode = 11;
             }
         }
     }
 
     //--------------------------------------------------------------------
-    // Ä²¸I²¾°Ê. 
+    // è§¸ç¢°ç§»å‹•. 
     //--------------------------------------------------------------------
     function onTouchMove(e) {
-        // °±¥Î±²°Ê.
+        // åœç”¨æ²å‹•.
         e.preventDefault();
-        // ¨úªºÄ²¸IÂI.
+        // å–çš„è§¸ç¢°é».
         var touch = e.touches[0];
 
-        // gameMainMode(10:¹CÀ¸¼Ò¦¡).
+        // gameMainMode(10:éŠæˆ²æ¨¡å¼).
         if (gameMainMode == 10) {
             e.preventDefault();
             mouse.set((touch.clientX / window.innerWidth) * 2 - 1, -(touch.clientY / window.innerHeight) * 2 + 1, 0);
@@ -183,10 +210,10 @@ function GameMain() {
     }
 
     //--------------------------------------------------------------------
-    // ¦¨¹³°j°é. 
+    // æˆåƒè¿´åœˆ. 
     //--------------------------------------------------------------------
     function render() {
-        // Âê FPS 30.
+        // é– FPS 30.
         gameClockOldT += gameClock.getDelta();
         if (gameClockOldT < 0.033) {
             requestAnimationFrame(render);
@@ -194,38 +221,44 @@ function GameMain() {
         }
         gameClockOldT -= 0.033;
                 
-        // ¶}©l­pºâFPS.
+        // é–‹å§‹è¨ˆç®—FPS.
         stats.begin();
 
-        // gameMainMode(10:¹CÀ¸¼Ò¦¡).
+        // gameMainMode(10:éŠæˆ²æ¨¡å¼).
         if(gameMainMode == 10)
         {
-            // ¹CÀ¸¼Ò¦¡.
+            // éŠæˆ²æ¨¡å¼.
             if (gamePlay.gamePlayMode == 11) {
-                // ­p¼Æ,¨C5¬íÅı²y¥[§Ö¤@ÂI³t«×.
+                // è¨ˆæ•¸,æ¯5ç§’è®“çƒåŠ å¿«ä¸€é»é€Ÿåº¦.
                 gamePlay.counter = Math.floor(gameClock.getElapsedTime() % 5);
             }           
-           // ²¾°Êª©¤l.
+           // ç§»å‹•ç‰ˆå­.
             gamePlay.paddleMove(attractor.x * 1, gamePlay.paddle.position.y, gamePlay.paddle.position.z);
             this.spotLight1.position.x = gamePlay.ball.position.x;
             this.spotLight1.position.y = gamePlay.ball.position.y;
-            // ¸I¼².
+
+            // AI.
+            if (openAI) {
+                ai.update();
+            }
+
+            // ç¢°æ’.
             gamePlay.update();
         }
 
-        // ¦¨¹³³õ´º.
+        // æˆåƒå ´æ™¯.
         renderer.render(scene, camera);
-        // ³]©w°õ¦æ¦¨¹³.
+        // è¨­å®šåŸ·è¡Œæˆåƒ.
         requestAnimationFrame(render);
 
-        // µ²§ô­pºâFPS.
+        // çµæŸè¨ˆç®—FPS.
         stats.end();
     }
 
 }
 
 //----------------------------------------------------------------------------
-// Åã¥Ü©ÎÃö³¬FPS.
+// é¡¯ç¤ºæˆ–é—œé–‰FPS.
 //----------------------------------------------------------------------------
 GameMain.prototype.FPS = function (visible) {
     if (visible) {
@@ -235,11 +268,11 @@ GameMain.prototype.FPS = function (visible) {
 }
 
 //----------------------------------------------------------------------------
-// µ{¦¡¶i¤JÂI.
+// ç¨‹å¼é€²å…¥é».
 //----------------------------------------------------------------------------
 window.onload = function () {
-    // «Ø¥ßª«¥ó.
+    // å»ºç«‹ç‰©ä»¶.
     var gameMain = new GameMain();
-    // Åã¥ÜFPS.
+    // é¡¯ç¤ºFPS.
     gameMain.FPS(false);
 };

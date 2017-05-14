@@ -1,5 +1,5 @@
-/*****************************************************************************
- * ¿j¶ô.
+ï»¿/*****************************************************************************
+ * ç£šå¡Š.
  * 
  * created  by channel
  * 
@@ -8,20 +8,20 @@
  * note:
  *
 ****************************************************************************/
-// «Øºc¤l.
+// å»ºæ§‹å­.
 function Bricks() {
-    // ¿j¶ô.
+    // ç£šå¡Š.
     this.bricks = null;
 }
 
 //----------------------------------------------------------------------------
-// ªì©l.
+// åˆå§‹.
 //----------------------------------------------------------------------------
 Bricks.prototype.init = function (name, aabbName, aabbId) {
-    // «Ø¥ßBoxª«¥ó.
+    // å»ºç«‹Boxç‰©ä»¶.
     var geometry = new THREE.BoxGeometry( 80, 26, 26);
 
-    // ³]©wNormal¶K¹Ï.
+    // è¨­å®šNormalè²¼åœ–.
     var color = "";
     if (aabbId == 1) {
         color = "#D82800";      // 1.
@@ -41,26 +41,26 @@ Bricks.prototype.init = function (name, aabbName, aabbId) {
         color = "#FCFCFC";      // 8.
     }    
     var bricksMaterial = new THREE.MeshLambertMaterial({ "color": color });
-    bricksMaterial.transparent = true;      // ¶}±Ò¨Ï¥Î³z©ú«×.
+    bricksMaterial.transparent = true;      // é–‹å•Ÿä½¿ç”¨é€æ˜åº¦.
 
     this.bricks = new THREE.Mesh(geometry, bricksMaterial);    
     this.bricks.name = name;
     this.bricks.geometry.computeBoundingBox();
     //this.bricks.castShadow = true;
-    //this.bricks.material.color = new THREE.Color("#0070EC");  // ³]©wÃC¦â.
-    //this.bricks.material.opacity = 0.5;   // ³]©w³z©ú«×.
+    //this.bricks.material.color = new THREE.Color("#0070EC");  // è¨­å®šé¡è‰².
+    //this.bricks.material.opacity = 0.5;   // è¨­å®šé€æ˜åº¦.
 
     // aabb.
     this.bricksBBox = new THREE.Box3(this.bricks.geometry.boundingBox.min, this.bricks.geometry.boundingBox.max);
-    this.bricksBBox.name = aabbName;            // aab¦WºÙ.
-    this.bricksBBox.obj = this.bricks;          // ¿j¶ôª«¥ó.
-    this.bricksBBox.bricksColor = aabbId;       // ¿j¶ôÃC¦â½s¸¹.
+    this.bricksBBox.name = aabbName;            // aabåç¨±.
+    this.bricksBBox.obj = this.bricks;          // ç£šå¡Šç‰©ä»¶.
+    this.bricksBBox.bricksColor = aabbId;       // ç£šå¡Šé¡è‰²ç·¨è™Ÿ.
 
     return this.bricks;
 }
 
 //----------------------------------------------------------------------------
-// ³]©wª«¥ó®y¼Ğ.
+// è¨­å®šç‰©ä»¶åº§æ¨™.
 //----------------------------------------------------------------------------
 Bricks.prototype.bricksMove = function (x, y, z) {
     this.bricks.position.x = x;

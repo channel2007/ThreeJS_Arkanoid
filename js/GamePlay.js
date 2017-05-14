@@ -1,5 +1,5 @@
-/*****************************************************************************
- * ¹CÀ¸GamePlay.
+ï»¿/*****************************************************************************
+ * éŠæˆ²GamePlay.
  * 
  * created  by channel
  * 
@@ -8,34 +8,34 @@
  * note:
  *
 ****************************************************************************/
-// «Øºc¤l.
+// å»ºæ§‹å­.
 function GamePlay(scene, x, y) {
-    // ¬ö¿ı³õ´º«ü¼Ğ.
+    // ç´€éŒ„å ´æ™¯æŒ‡æ¨™.
     this.scene = scene;
 
-    // ³]©w-ªO¤lªø«×.
+    // è¨­å®š-æ¿å­é•·åº¦.
     this.paddleLen = 120;
 
-    // ¿j¶ôªì©l¦ì¸m.
+    // ç£šå¡Šåˆå§‹ä½ç½®.
     this.mx = -415;
     this.my = -400;
 
-    // ²y¦ì¸m.
+    // çƒä½ç½®.
     this.x = 0;
     this.y = 0;
 
-    // 10:¶}²y¼Ò¦¡.
-    // 11:¹CÀ¸¼Ò¦¡.
+    // 10:é–‹çƒæ¨¡å¼.
+    // 11:éŠæˆ²æ¨¡å¼.
     this.gamePlayMode = 10;
 
-    // Ãö¥d.
+    // é—œå¡.
     this.levelID = 1;
 
-    // ºŞ¥dºŞ²z¾¹.
+    // ç®¡å¡ç®¡ç†å™¨.
     this.levelManager = new LevelManager();
 
     //------------------------------------------------------------------------
-    // ©³Àğ.
+    // åº•ç‰†.
     var wallGeometry = new THREE.BoxGeometry( 913, 1080, 250);
     var wallMaterial = new THREE.MeshLambertMaterial({ "color": "#009912" });
     this.wallBase = new THREE.Mesh(wallGeometry, wallMaterial);
@@ -49,7 +49,7 @@ function GamePlay(scene, x, y) {
     scene.add(this.wallBase);
 
     //------------------------------------------------------------------------
-    // ª©¤l.
+    // ç‰ˆå­.
     this.paddleGeometry = new THREE.BoxGeometry( this.paddleLen, 26, 32);
     this.paddleMaterial = new THREE.MeshLambertMaterial({ "color": "#fff" });
     this.paddle = new THREE.Mesh(this.paddleGeometry, this.paddleMaterial);
@@ -71,7 +71,7 @@ function GamePlay(scene, x, y) {
     scene.add(this.paddle);
 
     //------------------------------------------------------------------------
-    // ²y.
+    // çƒ.
     this.ballGeometry = new THREE.SphereGeometry(12);
     //this.ballMaterial = new THREE.MeshNormalMaterial();
     this.ballMaterial = new THREE.MeshLambertMaterial({ "color": "#fff" });
@@ -95,28 +95,28 @@ function GamePlay(scene, x, y) {
 }
 
 //----------------------------------------------------------------------------
-// ªì©l¹CÀ¸.
+// åˆå§‹éŠæˆ².
 //----------------------------------------------------------------------------
 GamePlay.prototype.resetGame = function (id) {
 
-    // ¿j¶ô¼Æ¶q.
+    // ç£šå¡Šæ•¸é‡.
     this.bricksMax = 0;
     this.aabbList = [];
     this.aabbName = "";
 
-    // ³]©w¶}²y¼Ò¦¡.
+    // è¨­å®šé–‹çƒæ¨¡å¼.
     this.gamePlayMode = 10;
 
-    // ªì©l³t«×.
+    // åˆå§‹é€Ÿåº¦.
     this.speedDx = 12;
     this.speedDy = 12;
     this.counter == 0
 
-    // ²y²¾°Ê³t«×.
+    // çƒç§»å‹•é€Ÿåº¦.
     this.dx =  this.speedDx;
     this.dy = -this.speedDy;
 
-    // ¿j¶ô°}¦C(11x15).
+    // ç£šå¡Šé™£åˆ—(11x15).
     var level = this.levelManager.getLevel(id);
     var pos = 0;
     this.bricksArray = [];
@@ -138,17 +138,17 @@ GamePlay.prototype.resetGame = function (id) {
 }
 
 //----------------------------------------------------------------------------
-// ³B²z²y¤Ï¼u.
+// è™•ç†çƒåå½ˆ.
 //----------------------------------------------------------------------------
 GamePlay.prototype.ballBounce = function (dis) {
-    // ¨Ì¥´¤¤¦ì¸mºâ¥X²y¨¤«×°¾²¾.
+    // ä¾æ‰“ä¸­ä½ç½®ç®—å‡ºçƒè§’åº¦åç§».
     var dis1 = Math.abs(dis);
     if (dis1 > (this.paddleLen >> 1)) { dis1 = (this.paddleLen >> 1); }
     var dis2 = (3 - (dis1 / 10)) * 1.8;    
 
-    // 1.¥k¤U.
+    // 1.å³ä¸‹.
     if (this.dx > 0 && this.dy >= 0) {
-        // ºâ¥X²¾°Ê°¾²¾.
+        // ç®—å‡ºç§»å‹•åç§».
         if (dis2 < 0) {
             this.dx = this.speedDx + Math.abs(dis2);
             this.dy = this.speedDy - Math.abs(dis2);
@@ -157,18 +157,18 @@ GamePlay.prototype.ballBounce = function (dis) {
             this.dy = this.speedDy + Math.abs(dis2);
         }
 
-        // ¤Ï¼u.
+        // åå½ˆ.
         if (dis < 0) {
             this.dy = -this.dy;
-        // ­ì¸ô®|ªğ¦^.
+        // åŸè·¯å¾‘è¿”å›.
         } else {
             this.dx = -this.dx;
             this.dy = -this.dy;
         }
 
-    // 2.¥ª¤U.
+    // 2.å·¦ä¸‹.
     } else if (this.dx < 0 && this.dy >= 0) {
-        // ºâ¥X²¾°Ê°¾²¾.
+        // ç®—å‡ºç§»å‹•åç§».
         if (dis2 < 0) {
             this.dx = -(this.speedDx + Math.abs(dis2));
             this.dy = (this.speedDy - Math.abs(dis2));
@@ -177,18 +177,18 @@ GamePlay.prototype.ballBounce = function (dis) {
             this.dy = (this.speedDy + Math.abs(dis2));
         }
 
-        // ­ì¸ô®|ªğ¦^.
+        // åŸè·¯å¾‘è¿”å›.
         if (dis < 0) {
             this.dx = -this.dx;
             this.dy = -this.dy;
-        // ¤Ï¼u.
+        // åå½ˆ.
         } else {
             this.dy = -this.dy;
         }
 
-    // 3.¥ª¤W.
+    // 3.å·¦ä¸Š.
     } else if (this.dx > 0 && this.dy <= 0) {
-        // ºâ¥X²¾°Ê°¾²¾.
+        // ç®—å‡ºç§»å‹•åç§».
         if (dis2 < 0) {
             this.dx =   this.speedDx - Math.abs(dis2);
             this.dy = -(this.speedDy + Math.abs(dis2));
@@ -197,18 +197,18 @@ GamePlay.prototype.ballBounce = function (dis) {
             this.dy = -(this.speedDy - Math.abs(dis2));
         }
 
-        // ¤Ï¼u.
+        // åå½ˆ.
         if (dis < 0) {
             this.dy = -this.dy;
-        // ­ì¸ô®|ªğ¦^.
+        // åŸè·¯å¾‘è¿”å›.
         } else {
             this.dx = -this.dx;
             this.dy = -this.dy;
         }
 
-    // 4.¥k¤W.
+    // 4.å³ä¸Š.
     } else if (this.dx < 0 && this.dy <= 0) {
-        // ºâ¥X²¾°Ê°¾²¾.
+        // ç®—å‡ºç§»å‹•åç§».
         if (dis2 < 0) {
             this.dx = -(this.speedDx - Math.abs(dis2));
             this.dy = -(this.speedDy + Math.abs(dis2));
@@ -217,11 +217,11 @@ GamePlay.prototype.ballBounce = function (dis) {
             this.dy = -(this.speedDy - Math.abs(dis2));
         }
 
-        // ­ì¸ô®|ªğ¦^.
+        // åŸè·¯å¾‘è¿”å›.
         if (dis < 0) {
             this.dx = -this.dx;
             this.dy = -this.dy;
-        // ¤Ï¼u.
+        // åå½ˆ.
         } else {
             this.dy = -this.dy;
         }
@@ -230,20 +230,20 @@ GamePlay.prototype.ballBounce = function (dis) {
 }
 
 //----------------------------------------------------------------------------
-// §ó·s.
+// æ›´æ–°.
 //----------------------------------------------------------------------------
 GamePlay.prototype.update = function () {    
 
-    // 10:¶}²y¼Ò¦¡.    
+    // 10:é–‹çƒæ¨¡å¼.    
     if (this.gamePlayMode == 10) {
-        // ²y¸òµÛªO¤l.
+        // çƒè·Ÿè‘—æ¿å­.
         this.x = this.paddle.position.x;
         this.y = this.paddle.position.y - 26;
         this.ballMove(this.x, this.y, this.ball.position.z);
 
-    // 11:¹CÀ¸¼Ò¦¡.
+    // 11:éŠæˆ²æ¨¡å¼.
     } else if (this.gamePlayMode == 11) {
-        // ¥[³t.
+        // åŠ é€Ÿ.
         if (this.counter == 0) {
             this.speedDx += 0.01;
             this.speedDy += 0.01;
@@ -252,7 +252,7 @@ GamePlay.prototype.update = function () {
             if (this.speedDy > 32) { this.speedDy = 32; }
         }
 
-        // ²¾°Ê²y.
+        // ç§»å‹•çƒ.
         if (this.x + this.dx > 444 || this.x + this.dx < -444) {
             this.aabbName = ""
             this.dx = -this.dx;
@@ -265,53 +265,53 @@ GamePlay.prototype.update = function () {
         this.y += this.dy;
         this.ballMove(this.x, this.y, this.ball.position.z);
 
-        // ²y±¼¸¨³B²z.
+        // çƒæ‰è½è™•ç†.
         if (this.y + this.dy > 528) {
-            // ³]©w¶}²yª¬ºA.
+            // è¨­å®šé–‹çƒç‹€æ…‹.
             this.gamePlayMode = 10;
 
-            // ªì©l³t«×.
+            // åˆå§‹é€Ÿåº¦.
             this.speedDx = 12;
             this.speedDy = 12;
             this.counter == 0
 
-            // ²y²¾°Ê³t«×.
+            // çƒç§»å‹•é€Ÿåº¦.
             this.dx =  this.speedDx;
             this.dy = -this.speedDy;
         }
 
-        // §PÂ_²y¸I¨ìª©¤l.
+        // åˆ¤æ–·çƒç¢°åˆ°ç‰ˆå­.
         if (this.ballBBox.intersectsBox(this.paddleBBox)) {
             if (this.aabbName != this.paddleBBox.name) {
-                //ºâ¥X²y®Úª©¤l¦ì¸m.
+                //ç®—å‡ºçƒæ ¹ç‰ˆå­ä½ç½®.
                 var dis = this.paddle.position.x - this.ball.position.x;
-                // ³B²z²y¤Ï¼u.
+                // è™•ç†çƒåå½ˆ.
                 this.ballBounce(dis);
-                // ¬ö¿ı¸I¼²¨ìªºª«¥ó¦WºÙ.            
+                // ç´€éŒ„ç¢°æ’åˆ°çš„ç‰©ä»¶åç¨±.            
                 this.aabbName = this.paddleBBox.name;
             }
         }
 
-        // §PÂ_²y¸I¿j¶ô.
+        // åˆ¤æ–·çƒç¢°ç£šå¡Š.
         for (var i = 0; i < this.aabbList.length; i++) {
             if (this.ballBBox.intersectsBox(this.aabbList[i])) {
                 if (this.aabbName != this.aabbList[i].name) {
 
-                    //ºâ¥X²y®Úª©¤l¦ì¸m.
+                    //ç®—å‡ºçƒæ ¹ç‰ˆå­ä½ç½®.
                     var dis = this.aabbList[i].obj.position.x - this.ball.position.x;
-                    // ³B²z²y¤Ï¼u.
+                    // è™•ç†çƒåå½ˆ.
                     this.ballBounce(dis);
 
-                    // ¬ö¿ı¸I¼²¨ìªºª«¥ó¦WºÙ.            
+                    // ç´€éŒ„ç¢°æ’åˆ°çš„ç‰©ä»¶åç¨±.            
                     this.aabbName = this.aabbList[i].name;
-                    // Ãö³¬¿j¶ô.
+                    // é—œé–‰ç£šå¡Š.
                     this.aabbList[i].obj.visible = false;
-                    // ¦©¿j¶ô¼Æ¶q.
+                    // æ‰£ç£šå¡Šæ•¸é‡.
                     this.bricksMax--;
-                    // ²¾°£¿j¶ô.
+                    // ç§»é™¤ç£šå¡Š.
                     this.aabbList.splice(i, 1);
 
-                    // ¿j¶ô¬°0­«·s¶}©l.
+                    // ç£šå¡Šç‚º0é‡æ–°é–‹å§‹.
                     if (this.bricksMax <= 0) {
                         this.levelID++;
                         if (this.levelID > 8) { this.levelID = 1;}
