@@ -5,7 +5,7 @@
  [【three.js】最強WebGL封裝套件-致敬經典打磚塊](http://webfish-channel.blogspot.tw/2017/04/threejswebgl.html)
 
 
-*## v0.02 版本更新*
+## *v0.02 版本更新*
 ### [新增設定視窗]
 #### -設定視窗內容說明：
 #### -cameraZoom：縮放攝影機
