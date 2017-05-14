@@ -12,3 +12,4 @@
 #### -AI：開關AI
 #### -Close Controls：關閉設定視窗
 #### -Open Controls：開啟設定視窗
+![alt text](https://1.bp.blogspot.com/-twIRl736DsA/WRfwQ9Mit3I/AAAAAAAAB_o/-r-YUkpBtVQByKongRDwwfZjxmBxR6PeQCLcB/s1600/p01.jpg "設定視窗")
